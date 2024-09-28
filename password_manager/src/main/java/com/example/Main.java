@@ -7,6 +7,15 @@ public class Main {
         boolean finish = false;
         ArrayList<Credential> credentials = new ArrayList<Credential>();
         Scanner scanner = new Scanner(System.in);
+        
+        enum Options{
+            Get,
+            Insert,
+            Update,
+            Delete,
+            Exit,
+            Invalid
+        }
 
         while(!finish){
 
@@ -19,12 +28,17 @@ public class Main {
             5 - Exit
             """);
             
-            int option = scanner.nextInt();
+            Options option = switch( scanner.nextInt() ){
+                case 1 -> Options.Get;
+                case 2 -> Options.Insert;
+                case 3 -> Options.Update;
+                case 4 -> Options.Delete;
+                case 5 -> Options.Exit;
+                default -> Options.Invalid;
+            };
 
-            switch(option){
-                case 1, 2, 3, 4, 5 -> finish = true;
-                default -> System.out.println("Insert a valid option!");
-            }
+            if(option == Options.Exit){ finish = true;}
+            else if(option == Options.Invalid){ System.out.println("Insert a valid option!"); }
         }
 
         scanner.close();
