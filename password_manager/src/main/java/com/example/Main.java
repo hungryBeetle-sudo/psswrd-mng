@@ -1,14 +1,17 @@
 package com.example;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
         boolean finish = false;
         ArrayList<Credential> credentials = new ArrayList<Credential>();
         Scanner scanner = new Scanner(System.in);
-        
-        enum Options{
+        scanner.useDelimiter(System.lineSeparator());
+
+        enum Options {
             Get,
             Insert,
             Update,
@@ -17,7 +20,7 @@ public class Main {
             Invalid
         }
 
-        while(!finish){
+        while (!finish) {
 
             System.out.println("""
             OPTIONS:
@@ -27,8 +30,8 @@ public class Main {
             4 - Delete credential
             5 - Exit
             """);
-            
-            Options option = switch( scanner.nextInt() ){
+
+            Options option = switch (scanner.nextInt()) {
                 case 1 -> Options.Get;
                 case 2 -> Options.Insert;
                 case 3 -> Options.Update;
@@ -37,20 +40,43 @@ public class Main {
                 default -> Options.Invalid;
             };
 
-            if(option == Options.Exit){ finish = true;}
-            else if(option == Options.Insert){
-                scanner.useDelimiter(System.lineSeparator());
+            if (option == Options.Exit) { finish = true; }
+            else if (option == Options.Get) {
+                System.out.println("What is the credential name?");
+                String name = scanner.next();
+                Credential credential = null;
 
-                System.out.println("Whats the credential name?");
+                for(Credential c : credentials){
+                    if(c.getName().equals(name)) {
+                        credential = c;
+                        break;
+                    }
+                }
+
+                if (Objects.nonNull(credential)){
+                    String response = "NAME: %s\nPASSWORD: %s";
+                    String formattedString = String.format(response, credential.getName(), credential.getPassword());
+
+                    System.out.println(formattedString + "\nPress ENTER to return to menu.");
+                    scanner.next();
+                } 
+                else{
+                    System.out.println("No credentials found.\nPress ENTER to return to menu.");
+                }
+            } 
+            else if (option == Options.Insert) {
+                System.out.println("What is the credential name?");
                 String name = scanner.next();
 
-                System.out.println("Whats the credential password?");
+                System.out.println("What is the credential password?");
                 String password = scanner.next();
 
                 Credential cred = new Credential(name, password);
                 credentials.add(cred);
             }
-            else if(option == Options.Invalid){ System.out.println("Insert a valid option!"); }
+            else if (option == Options.Invalid) {
+                System.out.println("Insert a valid option!");
+            }
         }
 
         scanner.close();
