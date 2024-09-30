@@ -38,6 +38,18 @@ public class Main {
             };
 
             if(option == Options.Exit){ finish = true;}
+            else if(option == Options.Insert){
+                scanner.useDelimiter(System.lineSeparator());
+
+                System.out.println("Whats the credential name?");
+                String name = scanner.next();
+
+                System.out.println("Whats the credential password?");
+                String password = scanner.next();
+
+                Credential cred = new Credential(name, password);
+                credentials.add(cred);
+            }
             else if(option == Options.Invalid){ System.out.println("Insert a valid option!"); }
         }
 
