@@ -74,6 +74,21 @@ public class Main {
                 Credential cred = new Credential(name, password);
                 credentials.add(cred);
             }
+            else if(option == Options.Update){
+                System.out.println("What is the credential name?");
+                String name = scanner.next();
+
+                for(Credential c : credentials){
+                    if(c.getName().equals(name)){
+                        System.err.println("What's the new password?");
+                        String password = scanner.next();
+                        c.setPassword(password);
+                        break;
+                    }
+                }
+
+                System.out.println("Password updated!");
+            }
             else if (option == Options.Invalid) {
                 System.out.println("Insert a valid option!");
             }
